@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+import threeiesms
+
+threeiesms.shell.main()
