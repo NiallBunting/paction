@@ -1,21 +1,30 @@
+import configparser
+import os
 import requests
+import six
 import sys
-#from oslo_utils import encodeutils
 
 class ThreeIeSms(object):
-    def main(self):
-        loginurl = ""
-        loginpayload = {"": "",
-                   "": ""}
-        actionurl = ""
-        actionpayload = {"": "",
-                   "": ""}
-        session = requests.Session()
-        session.post(loginurl, data=loginpayload)
-        session.post(actionurl, data=actionpayload)
+    def main(self, argv):
+         action = "%s.cfg" % argv.pop(0)
+
+         config = configparser.RawConfigParser()
+         if config.read([action, os.path.expanduser('~/%s' % action)]) == []:
+             raise NameError('Config file not found')
+
+         print(config.sections())
+
+def check_string(data):
+    if isinstance(data, six.string_types):
+        return data
+    raise TypeError("Not a string")
+
 def main():
     try:
-        #argv = [encodeutils.safe_decode(a) for a in sys.argv[1:]]
-        ThreeIeSms().main()
+        argv = [check_string(a) for a in sys.argv[1:]]
+        ThreeIeSms().main(argv)
     except Exception as e:
         print e
+
+if __name__ == "__main__":
+   main()
