@@ -1,0 +1,31 @@
+[main]
+#Name of action
+name=SMSsender
+desc=Send SMS using webtexts online.
+#How to interprate the cli
+inputargs=optionaldict_1 string
+#Forms to send
+action_1=login
+action_2=send
+#optionaldict
+optionaldict_1=contacts
+
+[login]
+#Standard
+url=https://127.0.0.1
+protocol=POST
+#Custom
+data[User][telephoneNo]=0000000000
+data[User][password]=0000000000
+
+[send]
+#Standard
+url=https://127.0.0.1
+protocol=POST
+#Custom
+data[Message][recipients][0]=input_1
+data[Message][message]=input_2
+
+#The optionaldict
+[contacts]
+me=0000000000
