@@ -1,18 +1,18 @@
 from setuptools import setup
 
-setup(name='threeiesms',
+setup(name='paction',
       version='0.1',
-      description='Sends sms through Three(IE) webtext.',
-      url='http://github.com/niallbunting/threeiesms',
+      description='Preforms a Protected ACTION.',
+      url='http://github.com/niallbunting/paction',
       author='Niall Bunting',
       author_email='',
       license='MIT',
-      packages=['threeiesms'],
+      packages=['paction'],
       install_requires=[
           'requests',
       ],
       zip_safe=False,
       entry_points={
-        'console_scripts': ['threeiesms=threeiesms.shell:main'],
+        'console_scripts': ['paction=paction.shell:main'],
       }
 )
