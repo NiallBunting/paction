@@ -12,7 +12,11 @@ class Paction(object):
              raise IndexError('TODO print help')
 
          configreader = paction.configreader.ConfigReader(action)
-         print(configreader.gather_main())
+         actiontaker= paction.actiontaker.ActionTaker(argv, configreader)
+
+         for action in configreader.next():
+             actiontaker.doaction(action)
+         #print(configreader.gather_main())
          #doaction = actiontaker.doconfig(myconfig)
 
 def check_string(data):

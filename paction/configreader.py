@@ -7,7 +7,6 @@ class ConfigReader(object):
     def __init__(self, action):
        self.action = action
        self.config = configparser.RawConfigParser()
-       self.i = 0
 
        if self.config.read([action, os.path.expanduser('~/%s' % action)]) == []:
            raise exc.ConfigError('Config file not found')
@@ -17,6 +16,7 @@ class ConfigReader(object):
 
        self.__gather_main()
 
+    # Returns a list of the options containing the keyword.
     def __get_type(self, options, keyword):
         match = []
         for key in options:
@@ -24,6 +24,9 @@ class ConfigReader(object):
                 match.append(key)
         return match
 
+    # Checks section provided for values containing the keyword.
+    # Then checks any values for there own section in the config file.
+    # Currently orders them based on order in config file.
     def __get_type_and_validate(self, section, keyword):
         items = self.config.items(section)
         matches = self.__get_type(items, keyword)
@@ -35,7 +38,9 @@ class ConfigReader(object):
     def __gather_main(self):
 
         # Get actions and validate
-        self.actions = dict(self.__get_type_and_validate("main", "action"))
+        actions = self.__get_type_and_validate("main", "action")
+        self.actions = [action[1] for action in actions]
+
         # Get optdict and validate
         self.optdict = dict(self.__get_type_and_validate("main", "optionaldict"))
 
@@ -43,7 +48,7 @@ class ConfigReader(object):
 
         for arg in self.inputargs:
             if "optionaldict" in arg:
-                if arg not in optdict:
+                if arg not in self.optdict:
                     raise exc.ConfigError("%s is not a dictionary" % arg)
 
     def __iter__(self):
@@ -51,8 +56,7 @@ class ConfigReader(object):
 
     def next(self):
         try:
-            self.actions[self.i]
+            return self.actions
         except IndexError:
             raise StopIteration()
 
-        self.i += 1
