@@ -3,19 +3,21 @@ import os
 
 import paction.exc as exc
 
+
 class ConfigReader(object):
     def __init__(self, action):
-       self.action = action
-       self.config = configparser.RawConfigParser()
-       self.config.optionxform = str
+        self.action = action
+        self.config = configparser.RawConfigParser()
+        self.config.optionxform = str
 
-       if self.config.read([action, os.path.expanduser('~/%s' % action)]) == []:
-           raise exc.ConfigError('Config file not found')
+        if self.config.read([action,
+                             os.path.expanduser('~/%s' % action)]) == []:
+            raise exc.ConfigError('Config file not found')
 
-       if not self.config.has_section("main"):
-           raise exc.ConfigError("Config has no main section")
+        if not self.config.has_section("main"):
+            raise exc.ConfigError("Config has no main section")
 
-       self.__gather_main()
+        self.__gather_main()
 
     # Returns a list of the options containing the keyword.
     def __get_type(self, options, keyword):
@@ -43,7 +45,9 @@ class ConfigReader(object):
         self.actions = [action[1] for action in actions]
 
         # Get optdict and validate
-        self.optdict = dict(self.__get_type_and_validate("main", "optionaldict"))
+        self.optdict = dict(self.__get_type_and_validate(
+            "main",
+            "optionaldict"))
 
         self.inputargs = self.config.get("main", "inputargs").split()
 
@@ -69,7 +73,7 @@ class ConfigReader(object):
             if "string" in arg:
                 inputargs[i] = {"type": "string"}
 
-        return inputargs 
+        return inputargs
 
     def __iter__(self):
         return self
@@ -79,4 +83,3 @@ class ConfigReader(object):
             return self.actions
         except IndexError:
             raise StopIteration()
-
