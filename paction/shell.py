@@ -15,7 +15,7 @@ class Paction(object):
          actiontaker= paction.actiontaker.ActionTaker(argv, configreader)
 
          for action in configreader.next():
-             actiontaker.doaction(action)
+             actiontaker.do_action(action)
          #print(configreader.gather_main())
          #doaction = actiontaker.doconfig(myconfig)
 
@@ -30,7 +30,6 @@ def main():
         Paction().main(argv)
     except Exception as e:
         raise
-        print e
 
 if __name__ == "__main__":
    main()

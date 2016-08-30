@@ -1,7 +1,6 @@
 [main]
 #Name of action
-name=SMSsender
-desc=Send SMS using webtexts online.
+name=SMSSender
 #How to interprate the cli
 inputargs=optionaldict_1 string
 #Forms to send
@@ -12,19 +11,19 @@ optionaldict_1=contacts
 
 [login]
 #Standard
-url=https://127.0.0.1
-protocol=POST
+url=https://myprovider.com/login/
+method=POST
 #Custom
-data[User][telephoneNo]=0000000000
-data[User][password]=0000000000
+data[User][username]=myusername
+data[User][password]=password
 
 [send]
 #Standard
-url=https://127.0.0.1
-protocol=POST
+url=https://myproider.com/send/text
+method=POST
 #Custom
-data[Message][recipients][0]=input_1
 data[Message][message]=input_2
+data[Message][number]=input_1
 
 #The optionaldict
 [contacts]
